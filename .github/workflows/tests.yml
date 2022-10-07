@@ -201,7 +201,7 @@ jobs:
           - runner: ${{needs.setup_tests.outputs.linux-runner}}
             container:
               image: ghcr.io/homebrew/ubuntu22.04:master
-              options: --user=linuxbrew -e GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED
+              options: --user=linuxbrew -e GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED --privileged
             workdir: /github/home
             timeout: 4320
       fail-fast: ${{fromJson(needs.setup_tests.outputs.fail-fast)}}
@@ -220,6 +220,10 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           echo 'PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin' >> $GITHUB_ENV
+
+      - name: Install uidmap in container
+        if: runner.os == 'Linux'
+        run: sudo apt update && sudo apt install -y uidmap
 
       - name: Set up Homebrew
         id: set-up-homebrew
