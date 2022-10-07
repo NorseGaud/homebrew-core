@@ -193,11 +193,6 @@ class Podman < Formula
   end
 
   test do
-    # It checks if there are no helper binaries in bindir.
-    assert_equal %W[
-      #{bin}/podman
-      #{bin}/podman-remote
-    ].sort, Dir[bin/"*"].sort
     # It checks if podman-remote binary could be executed.
     out = shell_output("#{bin}/podman-remote info 2>&1", 125)
     assert_match "Cannot connect to Podman", out
@@ -207,6 +202,11 @@ class Podman < Formula
       out = shell_output("#{bin}/podman-remote machine init --image-path fake-testi123 fake-testvm 2>&1", 125)
       assert_match "Error: open fake-testi123: no such file or directory", out
     else
+      # It checks if there are no helper binaries in bindir.
+      assert_equal %W[
+        #{bin}/podman
+        #{bin}/podman-remote
+      ].sort, Dir[bin/"*"].sort
       # It checks if all needed helper binaries are present.
       assert_equal %W[
         #{libexec}/podman/catatonit
