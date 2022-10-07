@@ -187,11 +187,9 @@ class Podman < Formula
   end
 
   service do
-    if OS.linux?
-      run [opt_bin/"podman", "system", "service", "--time=0"]
-      environment_variables PATH: std_service_path_env
-      working_dir HOMEBREW_PREFIX
-    end
+    run [opt_bin/"podman", "system", "service", "--time=0"]
+    environment_variables PATH: std_service_path_env
+    working_dir HOMEBREW_PREFIX
   end
 
   test do
