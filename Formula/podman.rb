@@ -100,6 +100,8 @@ class Podman < Formula
 
   def install
     if OS.mac?
+      ENV["PREFIX"] = prefix
+
       system "make", "podman-remote"
       bin.install "bin/darwin/podman" => "podman-remote"
       bin.install_symlink bin/"podman-remote" => "podman"
